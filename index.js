@@ -12,6 +12,8 @@ app.post("/", (req) => {
     .field({
         content: req.body
     })
-})
+    .then(value => console.log(value.text))
+    .catch(err => console.log(err))
+});
 
 app.listen(80, console.log("Listening"));
