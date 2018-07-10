@@ -1,0 +1,28 @@
+{
+  "name": "trello-webhook-parser",
+  "version": "1.0.0",
+  "description": "Parses the webhook of trello to post as a webhook in Discord",
+  "main": "app.js",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "superagent": "^3.8.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "none"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Santhosh-Annamalai/Santhosh-Annamalai.github.io.git"
+  },
+  "keywords": [
+    "none"
+  ],
+  "author": "Santhosh-Annamalai",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Santhosh-Annamalai/Santhosh-Annamalai.github.io/issues"
+  },
+  "homepage": "https://github.com/Santhosh-Annamalai/Santhosh-Annamalai.github.io#readme"
+}
