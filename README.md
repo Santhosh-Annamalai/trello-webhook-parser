@@ -1,9 +1,9 @@
 # trello-webhook-parser
 
 **Dependencies**:
-    * Express.js => `npm install express --save`
-    * BodyParser => `npm install body-parser --save`
-    * SuperAgent => `npm install superagent --save`
+    1) Express.js => `npm install express --save`
+    2) BodyParser => `npm install body-parser --save`
+    3) SuperAgent => `npm install superagent --save`
 
 **Description and Instructions on setting it up**:
 This is an API which will parse Trello Webhooks and send them in the proper format to Discord using Discord Webhooks. To set this API, please make sure you create a Trello Webhook. You can directly create a Trello Webhook at the Trello API Docs page, or you could send a post request to `https://api.trello.com/1/tokens/{APIToken}/webhooks` with your API key as the query string.
