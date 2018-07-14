@@ -11,7 +11,7 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
-require("./routes/routes.js").appRouter(app, superagent, discordWebhookURL);
+require("./src/routes/routes.js").appRouter(app, superagent, discordWebhookURL);
 
 /*eslint-disable no-console*/
 app.listen(port, console.log(`Listening to port ${port}`));
