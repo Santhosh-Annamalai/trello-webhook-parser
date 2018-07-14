@@ -19,7 +19,7 @@ module.exports.appRouter = (app, superagent, discordWebhookURL) => {
             const actionGeneratorUserName = actionData.memberCreator.username;
             const actionGeneratorAvatarURL = actionData.memberCreator.avatarUrl;
             const boardName = modelData.name;
-            const parsedData = require("../Trello Functions/types.js").typeParser(actionData, modelData, actionGeneratorName);
+            const parsedData = require("../Trello Actions/types.js").typeParser(actionData, actionGeneratorName);
             let returnData;
 
             superagent
@@ -32,7 +32,9 @@ module.exports.appRouter = (app, superagent, discordWebhookURL) => {
                     embeds: [
                         {
                             title: `An action took place in the Board: ${boardName}.`,
+                            url: modelData.url,
                             description: `Action: ${parsedData}`,
+                            color: 65535,
                             author: {
                                 name: actionGeneratorName,
                                 url: `https://trello.com/${actionGeneratorUserName}`,
