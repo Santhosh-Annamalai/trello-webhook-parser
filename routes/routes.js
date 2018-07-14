@@ -36,7 +36,7 @@ module.exports.appRouter = (app, superagent, discordWebhookURL, trelloKey, trell
                             author: {
                                 name: actionGeneratorName,
                                 url: `https://trello.com/${actionGeneratorUserName}`,
-                                icon_url: actionGeneratorAvatarURL !== null ? `${actionGeneratorAvatarURL}/170.png` : null
+                                icon_url: ((actionGeneratorAvatarURL !== null) ? `${actionGeneratorAvatarURL}/170.png` : null)
                             }
                         }
                     ]
