@@ -1,4 +1,4 @@
-module.exports.appRouter = (app, superagent, discordWebhookURL, trelloKey, trelloToken) => {
+module.exports.appRouter = (app, superagent, discordWebhookURL) => {
 
     // I added support for get request here because Trello API will send a quick http head request before it creates a webhook for a callback URL. More info about it here: https://developers.trello.com/page/webhooks#section-creating-a-webhook
 
@@ -19,7 +19,7 @@ module.exports.appRouter = (app, superagent, discordWebhookURL, trelloKey, trell
             const actionGeneratorUserName = actionData.memberCreator.username;
             const actionGeneratorAvatarURL = actionData.memberCreator.avatarUrl;
             const boardName = modelData.name;
-            const parsedData = require("../Trello Functions/types.js").typeParser(actionData, modelData, actionGeneratorName, trelloKey, trelloToken, superagent);
+            const parsedData = require("../Trello Functions/types.js").typeParser(actionData, modelData, actionGeneratorName);
             let returnData;
 
             superagent
