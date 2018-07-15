@@ -1,10 +1,12 @@
 module.exports.appRouter = (app, superagent, discordWebhookURL) => {
 
+    const allowedIP = ["107.23.104.115", "107.23.149.70", "54.152.166.250", "54.164.77.56", "54.209.149.230"];
     // I added support for get request here because Trello API will send a quick http head request before it creates a webhook for a callback URL. More info about it here: https://developers.trello.com/page/webhooks#section-creating-a-webhook
 
     app.get("/", (req, res) => {
         const ip = req.headers['x-forwarded-for'].split(",")[0];
-        if (ip === "107.23.104.115" || ip === "107.23.149.70" || ip === "54.152.166.250" || ip === "54.164.77.56" || ip === "54.209.149.230") {
+        if (ip === allowedIP.find(value => {
+            return value === ip; })) {
             res.send("Hello World");
         }
     });
@@ -12,7 +14,6 @@ module.exports.appRouter = (app, superagent, discordWebhookURL) => {
     app.post("/", (req, res) => {
         const ip = req.headers['x-forwarded-for'].split(",")[0];
         // We are doing an IP check here because Trello API sends requests only through these IP addresses.
-        const allowedIP = ["107.23.104.115", "107.23.149.70", "54.152.166.250", "54.164.77.56", "54.209.149.230"];
         if (ip === allowedIP.find(value => {
             return value === ip; })) {
             const actionData = req.body.action;
