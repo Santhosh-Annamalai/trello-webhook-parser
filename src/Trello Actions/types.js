@@ -10,7 +10,7 @@ module.exports.typeParser = function actionType(data, triggered_by) {
         }
     }
     if (type == "createCard") {
-        return verboseData = `A card named [${data.data.card.name}](https://www.trello.com/c/${data.data.card.shortLink}/) has been created by ${triggered_by}`;
+        return verboseData = `A card named [${data.data.card.name}](https://www.trello.com/c/${data.data.card.shortLink}/) has been created in this board`;
     }
     if (type == "commentCard") {
         return verboseData = `${triggered_by} commented on the card [${data.data.card.name}](https://www.trello.com/${data.data.card.shortLink}#comment-${data.id}/)`;
