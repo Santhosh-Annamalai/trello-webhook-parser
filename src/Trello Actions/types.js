@@ -1,23 +1,24 @@
 module.exports.typeParser = function actionType(data, triggered_by) {
     const type = data.type;
     let verboseData;
-    if (type == "addLabelToCard") {
+    if (type === "addLabelToCard") {
         if (data.data.label.name === "") {
             return verboseData = `A label of color ${data.data.label.color} has been added to the card [${data.data.card.name}](https://www.trello.com/c/${data.data.card.shortLink})`;
         }
-        else {
+        else if (data.data.label.hasOwnProperty("color") === false) {
             return verboseData = `A label named ${data.data.label.name} has been added to the card [${data.data.card.name}](https://www.trello.com/c/${data.data.card.shortLink})`;
         }
+        else {
+            return verboseData = `A label named ${data.data.label.name} of color ${data.data.label.color} has been added to the card [${data.data.card.name}](https://www.trello.com/c/${data.data.card.shortLink})`;
+        }
     }
-    if (type == "createCard") {
+    if (type === "createCard") {
         return verboseData = `A card named [${data.data.card.name}](https://www.trello.com/c/${data.data.card.shortLink}) has been created`;
     }
-    if (type == "commentCard") {
-        return verboseData = `${triggered_by} commented on the card [${data.data.card.name}](https://trello.com/c/${data.data.card.shortLink}/${data.data.card.idShort}-${data.data.card.name}#comment-${data.id})\n\n
-        **Content**:\n
-        \`\`\`${data.data.text}\`\`\``;
+    if (type === "commentCard") {
+        return verboseData = `${triggered_by} commented on the card [${data.data.card.name}](https://trello.com/c/${data.data.card.shortLink}/${data.data.card.idShort}-${data.data.card.name}#comment-${data.id})\n\n**Content**:\n\`\`\`${data.data.text}\`\`\``;
     }
-    if (type == "createLabel") {
+    if (type === "createLabel") {
         if (data.data.label.name === "") {
             return verboseData = `A label of color ${data.data.label.color} has been added`;
         }
@@ -25,7 +26,7 @@ module.exports.typeParser = function actionType(data, triggered_by) {
             return verboseData = `A label of name ${data.data.label.name} has been added`;
         }
     }
-    if (type == "updateLabel") {
+    if (type === "updateLabel") {
         if (data.data.hasOwnProperty("old")) {
             const oldData = data.data.old;
             if (oldData.hasOwnProperty("color")) {
@@ -53,6 +54,20 @@ module.exports.typeParser = function actionType(data, triggered_by) {
         }
         else if (data.data.hasOwnProperty("old") === false) {
             return verboseData = `The color of a label named ${data.data.label.name} has been updated from undefined to ${data.data.label.color}`;
+        }
+    }
+    if (type === "deleteLabel") {
+        return verboseData = `A label of ID \`${data.data.label.id}\` has been deleted`;
+    }
+    if (type === "removeLabelFromCard") {
+        if (data.data.label.name === "") {
+            return verboseData = `A label of color ${data.data.label.color} has been removed from the card [${data.data.card.name}](https://www.trello.com/c/${data.data.card.shortLink})`;
+        }
+        else if (data.data.label.hasOwnProperty("color") === false) {
+            return verboseData = `A label named ${data.data.label.name} has been removed from the card [${data.data.card.name}](https://www.trello.com/c/${data.data.card.shortLink})`;
+        }
+        else {
+            return verboseData = `A label named ${data.data.label.name} of color ${data.data.label.color} has been removed from the card [${data.data.card.name}](https://www.trello.com/c/${data.data.card.shortLink})`;
         }
     }
     return verboseData;
