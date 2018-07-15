@@ -43,7 +43,7 @@ module.exports.appRouter = (app, superagent, discordWebhookURL) => {
                                 icon_url: ((actionGeneratorAvatarURL !== null) ? `${actionGeneratorAvatarURL}/170.png` : null)
                             },
                             footer: {
-                                text: new Date(actionData).data.toUTCString()
+                                text: new Date(actionData.date).toUTCString()
                             }
                         }
                     ]
