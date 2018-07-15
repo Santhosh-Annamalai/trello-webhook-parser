@@ -80,23 +80,25 @@ module.exports.typeParser = function actionType(data, triggered_by) {
         return verboseData = `A checklist named \`${data.data.checklist.name}\` has been added to the card [${data.data.card.name}](https://www.trello.com/c/${data.data.card.shortLink})`;
     }
     if (type === "createCheckItem") {
-        const verboseDataInitial = `An item named \`${data.data.checkItem.name}\` has been added to the checklist \`${data.data.checklist.name}\` of card [${data.data.card.name}](https://www.trello.com/c/${data.data.card.shortLink})\n\n**Users Mentioned**\n$|8`;
+        const verboseDataInitial = `An item named \`${data.data.checkItem.name}\` has been added to the checklist \`${data.data.checklist.name}\` of card [${data.data.card.name}](https://www.trello.com/c/${data.data.card.shortLink})\n\n**Users Mentioned**:\n$|8`;
         let verboseDataArray = verboseDataInitial.split("$|8");
-        const unparsedData = data.data.checkItem.name;
+        const unparsedData = data.data.checkItem.name.replace(/:(.*?):/g, "");
         if (unparsedData.includes("@")) {
             const splitData = unparsedData.split(" ");
             splitData.forEach(value => {
-                let splitData2 = value.split("@");
-                splitData2.forEach(value => {
-                    if (value !== "") {
-                        let finalValue2 = value.match(/[a-z0-9_]/g);
-                        let finalValue = finalValue2.join("");
-                        if ((finalValue.length >= 3) && (finalValue.length <= 100)) {
-                            return verboseDataArray.push(`* [${finalValue}](https://trello.com/${finalValue})\n`);
+                if (value.includes("@")) {
+                    let splitData2 = value.split("@");
+                    splitData2.forEach(value => {
+                        if (value !== "") {
+                            let finalValue2 = value.match(/[a-z0-9_]/g);
+                            let finalValue = finalValue2.join("");
+                            if ((finalValue.length >= 3) && (finalValue.length <= 100)) {
+                                return verboseDataArray.push(`* [${finalValue}](https://trello.com/${finalValue})\n`);
+                            }
                         }
-                    }
-                });
-                return verboseData = verboseDataArray.join("");
+                    });
+                    return verboseData = verboseDataArray.join("");
+                }
 
             });
         }
@@ -114,12 +116,12 @@ module.exports.typeParser = function actionType(data, triggered_by) {
         }
     }
     if (type === "updateCheckItem") {
-        const verboseDataInitial = `An item name of checklist ${data.data.checklist.name} of card [${data.data.card.name}](https://www.trello.com/c/${data.data.card.shortLink}) has been updated from ${data.data.old.name} to ${data.data.checkItem.name}\n\n**Users mentioned**:\n$|8`;
+        const verboseDataInitial = `An item name of checklist \`${data.data.checklist.name}\` of card [${data.data.card.name}](https://www.trello.com/c/${data.data.card.shortLink}) has been updated from \`${data.data.old.name}\` to \`${data.data.checkItem.name}\`\n\n**Users mentioned**:\n$|8`;
         let verboseDataArray = verboseDataInitial.split("$|8");
         const rawHtmlData = data.display.entities.checkitem.nameHtml;
         const parsedHtmlData = rawHtmlData.match(/(title=)(.*?)>/g);
-        if (!parsedHtmlData && Array.isArray(parsedHtmlData)) {
-            const parsedHtmlData2 = parsedHtmlData.join(",").match(/"(.*?)"/g).join(",").match(/[^"]/g).join("").split(",");
+        if ((parsedHtmlData !== null) && Array.isArray(parsedHtmlData)) {
+            let parsedHtmlData2 = parsedHtmlData.join(",").match(/"(.*?)"/g).join(",").match(/[^"]/g).join("").split(",");
             for (let i = 0; i < parsedHtmlData2.length; i++) {
                 verboseDataArray.push(`${i + 1}) [${parsedHtmlData2[i]}](https://trello.com/${parsedHtmlData2[i]})\n`);
             }
