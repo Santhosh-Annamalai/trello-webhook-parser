@@ -76,7 +76,7 @@ module.exports.typeParser = function actionType(data, triggered_by) {
     if (type === "updateComment") {
         return verboseData = `${triggered_by} updated their comment on card [${data.data.card.name}](https://trello.com/c/${data.data.card.shortLink}/${data.data.card.idShort}-${data.data.card.name}#comment-${data.id})\n\n**Old Content**:\n\`\`\`${data.data.old.text}\n\n**New Content**:\n\`\`\`${data.data.action.text}\`\`\``;
     }
-    if (type === "addCheckListToCard") {
+    if (type === "addChecklistToCard") {
         return verboseData = `A checklist named ${data.data.checklist.name} has been added to the card [${data.data.card.name}](https://www.trello.com/c/${data.data.card.shortLink})`;
     }
     if (type === "createCheckItem") {
