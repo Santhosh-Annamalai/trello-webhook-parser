@@ -231,10 +231,10 @@ module.exports.typeParser = function actionType(data, triggered_by, model) {
                     return verboseData = `The board has been changed from ${oldData.prefs.permissionLevel} to ${data.data.board.prefs.permissionLevel}`;
                 }
                 if (oldData.prefs.hasOwnProperty("background")) {
-                    if ((model.prefs.backgroundImage === null) && (oldData.length <= 7)) {
+                    if ((model.prefs.backgroundImage === null) && (oldData.prefs.background.length <= 7)) {
                         return verboseData = `The background of this board has been changed from \`${oldData.prefs.background}\` to \`${data.data.board.prefs.background}\``;
                     }
-                    else if (Array.isArray(model.prefs.backgroundImageScaled) && (oldData.length <= 7)) {
+                    else if (Array.isArray(model.prefs.backgroundImageScaled) && (oldData.prefs.background.length <= 7)) {
                         const background = model.prefs.backgroundImageScaled;
                         let finalBackgroundURL;
                         background.find(value => {
@@ -245,14 +245,7 @@ module.exports.typeParser = function actionType(data, triggered_by, model) {
                         return verboseData = `The background of this board has been updated from \`${oldData.prefs.background}\` to an [image](${finalBackgroundURL})`;
                     }
                     else {
-                        const background = model.prefs.backgroundImageScaled;
-                        let finalBackgroundURL;
-                        background.find(value => {
-                            if (value.width === 1920) {
-                                return finalBackgroundURL = value.url;
-                            }
-                        });
-                        return verboseData = `The background of this board has been changed from an [image](${finalBackgroundURL}) to a color named \`${oldData.prefs.background}\``;
+                        return verboseData = `The background of this board has been changed from an image to a color named \`${data.data.board.prefs.background}\``;
                     }
                 }
                 if (oldData.prefs.hasOwnProperty("voting")) {
