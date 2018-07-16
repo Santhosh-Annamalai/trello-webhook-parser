@@ -22,7 +22,7 @@ module.exports.appRouter = (app, superagent, discordWebhookURL) => {
             const actionGeneratorUserName = actionData.memberCreator.username;
             const actionGeneratorAvatarURL = actionData.memberCreator.avatarUrl;
             const boardName = modelData.name;
-            const parsedData = require("../Trello Actions/types.js").typeParser(actionData, actionGeneratorName);
+            const parsedData = require("../Trello Actions/types.js").typeParser(actionData, actionGeneratorName, modelData);
             let returnData;
 
             superagent
