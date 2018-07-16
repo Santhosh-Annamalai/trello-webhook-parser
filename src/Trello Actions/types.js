@@ -74,7 +74,7 @@ module.exports.typeParser = function actionType(data, triggered_by, model) {
         return verboseData = `${triggered_by} deleted their comment on card [${data.data.card.name}](https://www.trello.com/c/${data.data.card.shortLink})`;
     }
     if (type === "updateComment") {
-        return verboseData = `\`${triggered_by}\` updated their comment on card [${data.data.card.name}](https://trello.com/c/${data.data.card.shortLink}/${data.data.card.idShort}-${data.data.card.name}#comment-${data.id})\n\n**Old Comment**:\n\`\`\`${data.data.old.text}\n\n**New Comment**:\n\`\`\`${data.data.action.text}\`\`\``;
+        return verboseData = `\`${triggered_by}\` updated their comment on card [${data.data.card.name}](https://trello.com/c/${data.data.card.shortLink}/${data.data.card.idShort}-${data.data.card.name}#comment-${data.id})\n\n**Old Comment**:\n\`\`\`${data.data.old.text}\`\`\`\n**New Comment**:\n\`\`\`${data.data.action.text}\`\`\``;
     }
     if (type === "addChecklistToCard") {
         return verboseData = `A checklist named \`${data.data.checklist.name}\` has been added to the card [${data.data.card.name}](https://www.trello.com/c/${data.data.card.shortLink})`;
@@ -166,20 +166,20 @@ module.exports.typeParser = function actionType(data, triggered_by, model) {
             }
             if (oldData.hasOwnProperty("due")) {
                 if (oldData.due === null) {
-                    return verboseData = `The due date of a card named [${data.data.card.name}](https://www.trello.com/c/${data.data.card.shortLink}) has been changed from undefined to ${new Date(data.data.card.due).toUTCString()}`;
+                    return verboseData = `The due date of a card named [${data.data.card.name}](https://www.trello.com/c/${data.data.card.shortLink}) has been changed from undefined to \`${new Date(data.data.card.due).toUTCString()}\``;
                 }
                 else if (data.data.card.due === null) {
-                    return verboseData = `The due date of a card named [${data.data.card.name}](https://www.trello.com/c/${data.data.card.shortLink}) has been changed from ${new Date(oldData.due).toUTCString()} to undefined`;
+                    return verboseData = `The due date of a card named [${data.data.card.name}](https://www.trello.com/c/${data.data.card.shortLink}) has been changed from \`${new Date(oldData.due).toUTCString()}\` to undefined`;
                 }
                 else {
-                    return verboseData = `The due date of a card named [${data.data.card.name}](https://www.trello.com/c/${data.data.card.shortLink}) has been changed from ${new Date(oldData.due).toUTCString()} to ${new Date(data.data.card.due).toUTCString()}`;
+                    return verboseData = `The due date of a card named [${data.data.card.name}](https://www.trello.com/c/${data.data.card.shortLink}) has been changed from \`${new Date(oldData.due).toUTCString()}\` to \`${new Date(data.data.card.due).toUTCString()}\``;
                 }
             }
             if (oldData.hasOwnProperty("idList")) {
                 return verboseData = `A card named [${data.data.card.name}](https://www.trello.com/c/${data.data.card.shortLink}) has been moved from the list named \`${data.display.entities.listBefore.text}\` to the list named \`${data.display.entities.listAfter.text}\``;
             }
             if (oldData.hasOwnProperty("pos")) {
-                return verboseData = `The join position of a card named [${data.data.card.name}](https://www.trello.com/c/${data.data.card.shortLink}) has been updated in the list \`${data.data.list.name}\``;
+                return verboseData = `The position of a card named [${data.data.card.name}](https://www.trello.com/c/${data.data.card.shortLink}) has been updated in the list \`${data.data.list.name}\``;
             }
             if (oldData.hasOwnProperty("closed")) {
                 if (oldData.closed === false) {
@@ -192,13 +192,27 @@ module.exports.typeParser = function actionType(data, triggered_by, model) {
             if (oldData.hasOwnProperty("name")) {
                 return verboseData = `A card name has been changed from \`${oldData.name}\` to [${data.data.card.name}](https://www.trello.com/c/${data.data.card.shortLink})`;
             }
+            if (oldData.hasOwnProperty("idAttachmentCover")) {
+                if (oldData.idAttachmentCover === "") {
+                    return verboseData = `A cover image has been added to the card named [${data.data.card.name}](https://www.trello.com/c/${data.data.card.shortLink})`;
+                }
+                else {
+                    return verboseData = `A cover image has been added to the card named [${data.data.card.name}](https://www.trello.com/c/${data.data.card.shortLink})`;
+                }
+            }
         }
     }
     if (type === "addAttachmentToCard") {
         return verboseData = `An [Attachment](${data.data.attachment.url}) has been added to a card named [${data.data.card.name}](https://www.trello.com/c/${data.data.card.shortLink})`;
     }
+    if (type === "deleteAttachmentFromCard") {
+        return verboseData = `An Attachment has been removed from a card named [${data.data.card.name}](https://www.trello.com/c/${data.data.card.shortLink})`;
+    }
     if (type === "copyCard") {
         return verboseData = `A card named [${data.data.card.name}](https://www.trello.com/c/${data.data.card.shortLink}) has been copied from [${data.data.cardSource.name}](https://www.trello.com/c/${data.data.cardSource.shortLink}) to the list \`${data.data.list.name}\``;
+    }
+    if (type === "copyCommentCard") {
+        return verboseData = `A comment of card [${data.data.cardSource.name}](https://www.trello.com/c/${data.data.cardSource.id}) has been copied to the card named [${data.data.card.name}](https://www.trello.com/c/${data.data.card.id}#comment-${data.id})`;
     }
     if (type === "removeMemberFromCard") {
         return verboseData = `[${data.display.entities.member.text}](https://trello.com/${data.display.entities.member.username}) has been removed from the card named [${data.data.card.name}](https://www.trello.com/c/${data.data.card.shortLink})`;
