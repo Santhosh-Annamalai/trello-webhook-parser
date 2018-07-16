@@ -13,6 +13,8 @@ This is an API which will parse Trello Webhooks and send them in the proper form
 
 To create a Trello Webhook, you would have to host the API which would listen to port 80 (Or whatever port you prefer. To do so, change the port configuration [here](https://github.com/Santhosh-Annamalai/trello-webhook-parser/blob/3d2dd59dea0f7183421eb04ee6598bd0aaf8731f/app.js#L9)). If you have trouble getting a domain for hosting, you can use [ngrok](https://ngrok.com/) for hosting purposes (wouldn't recommend using ngrok for production purposes, use it if you're gonna host this API for personal / testing purposes). Make sure you also change the Discord Webhook URL [here](https://github.com/Santhosh-Annamalai/trello-webhook-parser/blob/3d2dd59dea0f7183421eb04ee6598bd0aaf8731f/app.js#L5).
 
+After going through the aforementioned instructions, run `node app.js` in a node.js command prompt to make it listen to API calls.
+
 Here is an example POST request which uses [superagent](http://visionmedia.github.io/superagent).
 
 ```js
@@ -32,7 +34,5 @@ superagent
 .then(value => console.log(value.error))
 .catch(error => console.log(error.response.error.text));
 ```
-
-After changing and setting up everything, run `node app.js` in a node.js command prompt to make it listen to API calls.
 
 If these instructions were followed as explained, this API should work properly and would parse the JSON data before sending it as a Discord Webhook.
