@@ -176,7 +176,7 @@ module.exports.typeParser = function actionType(data, triggered_by, model) {
                 }
             }
             if (oldData.hasOwnProperty("idList")) {
-                return verboseData = `A card named [${data.data.card.name}](https://www.trello.com/c/${data.data.card.shortLink}) has been moved from the list \`${data.display.entities.listBefore.text}\` to the list \`${data.display.entities.listAfter.text}\``;
+                return verboseData = `A card named [${data.data.card.name}](https://www.trello.com/c/${data.data.card.shortLink}) has been moved from the list named \`${data.display.entities.listBefore.text}\` to the list named \`${data.display.entities.listAfter.text}\``;
             }
             if (oldData.hasOwnProperty("pos")) {
                 return verboseData = `The join position of a card named [${data.data.card.name}](https://www.trello.com/c/${data.data.card.shortLink}) has been updated in the list \`${data.data.list.name}\``;
@@ -258,6 +258,39 @@ module.exports.typeParser = function actionType(data, triggered_by, model) {
     }
     if (type === "enablePlugin") {
         return verboseData = `A plugin named ${data.data.plugin.name} has been enabled in this board`;
+    }
+    if (type === "createList") {
+        return verboseData = `A list named \`${data.data.list.name}\` has been created`;
+    }
+    if (type === "updateList") {
+        if (data.data.hasOwnProperty("old")) {
+            const oldData = data.data.old;
+            if (oldData.hasOwnProperty("pos")) {
+                return verboseData = `The position of a list named ${data.data.list.name} has been changed`;
+            }
+            if (oldData.hasOwnProperty("name")) {
+                return verboseData = `The name of a list has been changed from \`${oldData.name}\` to \`${data.data.list.name}\``;
+            }
+            if (oldData.hasOwnProperty("closed")) {
+                if (oldData.closed === false) {
+                    return verboseData = `A label named \`${data.data.label.name}\` has been archived`;
+                }
+                else {
+                    return verboseData = `A label named \`${data.data.label.name}\` has been unarchived`;
+                }
+            }
+        }
+    }
+    if (type === "moveListFromBoard") {
+        return verboseData = `A list named \`${data.data.list.name}\` has been moved to a board named [${data.display.entities.board.text}](https://trello.com/b/${data.display.entities.board.shortLink})`;
+    }
+    if (type === "voteOnCard") {
+        if (data.data.voted === true) {
+            return verboseData = `A vote has been placed on the card [${data.data.card.name}](https://trello.com/c/${data.data.card.shortLink})`;
+        }
+        else {
+            return verboseData = `A vote has been removed from the card [${data.data.card.name}](https://trello.com/c/${data.data.card.shortLink})`;
+        }
     }
 
     return verboseData;
