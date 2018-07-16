@@ -22,7 +22,10 @@ module.exports.appRouter = (app, superagent, discordWebhookURL) => {
             const actionGeneratorUserName = actionData.memberCreator.username;
             const actionGeneratorAvatarURL = actionData.memberCreator.avatarUrl;
             const boardName = modelData.name;
-            const parsedData = require("../Trello Actions/types.js").typeParser(actionData, actionGeneratorName, modelData);
+            const cardLink = (actionData.data.hasOwnProperty("card"))
+            ? ((actionData.data.card.hasOwnProperty("name") && actionData.data.card.hasOwnProperty("shortLink"))
+                ? `[${actionData.data.card.name}](https://www.trello.com/c/${actionData.data.card.shortLink})` : null) : null;
+            const parsedData = require("../Trello Actions/types.js").typeParser(actionData, actionGeneratorName, modelData, cardLink);
             let returnData;
 
             superagent

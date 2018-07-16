@@ -19,7 +19,8 @@ Here is an example POST request which uses [superagent](http://visionmedia.githu
 const superagent = require("superagent");
 
 superagent
-.post(`https://api.trello.com/1/tokens/{APIToken}/webhooks`)
+.post("https://api.trello.com/1/tokens/{APIToken}/webhooks")
+.set("Content-Type", "application/json")
 .query({
     key: APIKey
 })
