@@ -1,5 +1,8 @@
 # trello-webhook-parser
 
+**Note**:  
+This is a project which is still in development, in case the webhook didn't parse an action, please open an [issue](https://github.com/Santhosh-Annamalai/trello-webhook-parser/issues) in this repo which includes the type of action (i.e. `action.type`) and I would gladly add support for it. If you happen to face any issue / stuck upon a bug, feel free to open an issue explaining all the details.
+
 **Dependencies**:  
     1) Express.js => `npm install express --save`  
     2) BodyParser => `npm install body-parser --save`  
