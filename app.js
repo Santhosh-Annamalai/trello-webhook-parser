@@ -31,4 +31,4 @@ app.use(async (err, req, res) => {
     return res.status(500).send(customError);
 });
 
-app.listen(port, console.log(`Listening to port ${port}`));
+app.listen(port, Logger.notice(`Listening to port ${port}`));
