@@ -1,18 +1,34 @@
 const express = require("express");
-const bodyParser = require("body-parser");
-const superagent = require("superagent");
+const methodOverride = require("method-override");
+const { restClient, errorWebhookID, errorWebhookToken, port } = require("./config/config.js");
+const Logger = require("./src/Logger/Logger.js");
 const app = express();
-const discordWebhookURL = require("./config.js").discordWebhookURL;
-const port = 80;
+const { router } = require("./src/routes/routes.js");
+const customError = "An error occurred. Please try again later. If the issue persists, please inform the developer!";
 
-app.use(bodyParser.json());
-
-app.use(bodyParser.urlencoded({
+app.use(express.json());
+app.use(express.urlencoded({
     extended: true
 }));
 
-require("./src/routes/routes.js").appRouter(app, superagent, discordWebhookURL);
+app.use("/", router);
+app.use(methodOverride());
+app.use(async (err, req, res) => {
+    restClient.executeWebhook(errorWebhookID, errorWebhookToken, {
+        username: "Error Logger",
+        avatarURL: "https://starttraffic.uk/image/cache/catalog/product-photos/signs/metal-signs/750mm-triangular/metal-sign-danger-warning-1800x1200_0.jpg",
+        embeds: [
+            {
+                title: err.message,
+                description: `**Domain**: \`${req.hostname}\`\n**Path**: \`${req.originalUrl}\`\n**URL**: [\`https://${req.hostname}${req.originalUrl}\`](https://${req.hostname}${req.originalUrl})\n\n**Stack**: \`\`\`js\n${err.stack}\`\`\``,
+                color: 0xff0000,
+                timestamp: new Date()
+            }
+        ]
+    });
 
-/*eslint-disable no-console*/
+    Logger.error(err.stack);
+    return res.status(500).send(customError);
+});
+
 app.listen(port, console.log(`Listening to port ${port}`));
-/*eslint-enable no-console*/

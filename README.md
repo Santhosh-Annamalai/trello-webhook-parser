@@ -1,17 +1,12 @@
 # trello-webhook-parser
 
-**Note**:  
+## Note:  
 This is a project which is still in development, in case the webhook didn't parse an action, please open an [issue](https://github.com/Santhosh-Annamalai/trello-webhook-parser/issues) in this repo which includes the type of action (i.e. `action.type`) and I would gladly add support for it. If you happen to face any issue / stuck upon a bug, feel free to open an issue explaining all the details.
 
-**Dependencies**:  
-    1) Express.js => `npm install express --save`  
-    2) BodyParser => `npm install body-parser --save`  
-    3) SuperAgent => `npm install superagent --save`  
-
-**Description and Instructions on setting it up**:  
+## Description and Instructions on setting it up:  
 This is an API which will parse Trello Webhooks and send them in the proper format to Discord using Discord Webhooks. To set this API, please make sure you create a Trello Webhook. You can directly create a Trello Webhook at the Trello API Docs page, or you could send a post request to `https://api.trello.com/1/tokens/{APIToken}/webhooks` with your API key as the query string.
 
-To create a Trello Webhook, you would have to host the API which would listen to port 80 (Or whatever port you prefer. To do so, change the port configuration [here](https://github.com/Santhosh-Annamalai/trello-webhook-parser/blob/3d2dd59dea0f7183421eb04ee6598bd0aaf8731f/app.js#L9)). If you have trouble getting a domain for hosting, you can use [ngrok](https://ngrok.com/) for hosting purposes (wouldn't recommend using ngrok for production purposes, use it if you're gonna host this API for personal / testing purposes). Make sure you also change the Discord Webhook URL [here](https://github.com/Santhosh-Annamalai/trello-webhook-parser/blob/3d2dd59dea0f7183421eb04ee6598bd0aaf8731f/app.js#L5).
+To create a Trello Webhook, you would have to host the API which would listen to port 80 (Or whatever port you prefer. To do so, change the port configuration in the [config.js](https://github.com/Santhosh-Annamalai/trello-webhook-parser/blob/master/config/config.js) file. If you have trouble getting a domain for hosting, you can use [ngrok](https://ngrok.com/) for hosting purposes (wouldn't recommend using ngrok for production purposes, use it if you're gonna host this API for personal / testing purposes). Make sure to add all the necessary info in the config file to start the API without any issues.
 
 After going through the aforementioned instructions, run `node app.js` in a node.js command prompt to make it listen to API calls.
 
