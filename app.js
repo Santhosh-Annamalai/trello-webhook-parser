@@ -13,7 +13,7 @@ app.use(express.urlencoded({
 
 app.use("/", router);
 app.use(methodOverride());
-app.use(async (err, req, res) => {
+app.use(async (err, req, res, next) => { // eslint-disable-line
     restClient.executeWebhook(errorWebhookID, errorWebhookToken, {
         username: "Error Logger",
         avatarURL: "https://starttraffic.uk/image/cache/catalog/product-photos/signs/metal-signs/750mm-triangular/metal-sign-danger-warning-1800x1200_0.jpg",
